@@ -3,48 +3,33 @@
 #include "Commands.h"
 #include "Env.h"
 
-void printEnv(const std::string &value) {
-    auto vars = utils::split(value, ';');
-    std::size_t c = 0;
-    for (auto &i: vars) {
-        std::cout << "[" << c << "]\t" << i << std::endl;
-        c += 1;
-    }
-}
-
-bool ShowValues::apply() {
+void ShowValues::apply() {
     auto env = Environment::open();
-    const auto value = env.get(m_variable);
-
-    printEnv(value);
-    return true;
+    auto [value, type] = env.get(m_variable);
+    std::cout << m_variable << " : " << utils::typeToStr(type) << std::endl;
+    utils::printList(value);
 }
 
-bool AddVariable::apply() {
+void AddVariable::apply() {
     auto env = Environment::open();
     env.append(m_variable, m_value);
-    return true;
 }
 
-bool CreateVariable::apply() {
+void CreateVariable::apply() {
     auto env = Environment::open();
     env.set(m_variable, m_value);
-    return true;
 }
 
-bool DeleteValue::apply() {
+void DeleteValue::apply() {
     auto env = Environment::open();
-    const auto value = env.get(m_variable);
-    auto vars = utils::split(value, ';');
+    auto [value, _] = env.get(m_variable);
 
-    filter(vars);
-    if (vars.empty()) {
+    filter(value);
+    if (value.empty()) {
         env.del(m_variable);
-        return true;
+    } else {
+        env.set(m_variable, value);
     }
-
-    env.set(m_variable, vars);
-    return false;
 }
 
 bool isPattern(const std::string& s) {
@@ -72,3 +57,8 @@ void DeleteValue::filter(std::list<std::string>& vars) {
     });
 }
 
+void ShowAllEnv::apply() {
+    auto env = Environment::open();
+    PrintAll visitor;
+    env.foreach(visitor);
+}

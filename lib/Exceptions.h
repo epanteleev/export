@@ -1,7 +1,5 @@
 #pragma once
-
 #include "utils.h"
-
 
 class WindowsError : public std::exception {
 public:
@@ -35,7 +33,7 @@ public:
 
 class BadIndex : public std::exception {
 public:
-    explicit BadIndex(std::string&& idx) : message("bad index \"" + idx + "\"") {}
+    explicit BadIndex(std::string &&idx) : message("bad index \"" + idx + "\"") {}
 
     [[nodiscard]]
     const char *what() const noexcept override {

@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 if($<CONFIG:DEBUG>)
     add_compile_options(-g3 -Wall -Wextra -Og)
 else()
-    add_compile_options(-O3 -flto -Os)
+    add_compile_options(-O3 -Os)
 endif()
 
 include_directories(lib)

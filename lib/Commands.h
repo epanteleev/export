@@ -10,7 +10,7 @@ class AbstractCommand {
 public:
     virtual ~AbstractCommand() = default;
 
-    virtual bool apply() = 0;
+    virtual void apply() = 0;
 };
 
 class CreateVariable : public AbstractCommand {
@@ -19,7 +19,7 @@ public:
             m_variable(variable),
             m_value(value) {}
 
-    bool apply() override;
+    void apply() override;
 
 private:
     const char *m_variable{};
@@ -32,7 +32,7 @@ public:
             m_variable(variable),
             m_value(value) {}
 
-    bool apply() override;
+    void apply() override;
 
 private:
     const char *m_variable{};
@@ -44,7 +44,7 @@ public:
     explicit ShowValues(const char *variable) :
             m_variable(variable) {}
 
-    bool apply() override;
+    void apply() override;
 
 private:
     const char *m_variable{};
@@ -58,11 +58,16 @@ public:
             m_value(value) {}
 
 public:
-    bool apply() override;
+    void apply() override;
 
     void filter(std::list<std::string> &vars);
 
 private:
     const char *m_variable{};
     const char *m_value{};
+};
+
+class ShowAllEnv: public AbstractCommand {
+public:
+    void apply() override;
 };

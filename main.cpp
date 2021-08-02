@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include "CommandLineParser.h"
 
 void help() {
@@ -11,6 +10,7 @@ void help() {
                  "\t-a, --add <variable> <value>        Add value in variable\n"
                  "\t-r, --remove <variable> <value>     Remove value from variable\n"
                  "\t-m, --make <variable> <value>       Create new variable with initial value\n"
+                 "\t-s, --show                          Show values for all accessible variable"
                  << std::endl;
 }
 
@@ -20,8 +20,8 @@ int main(int argc, char **argv) {
         return 0;
     }
     try {
-        auto st = CommandLineParser(argc, argv).apply();
-        st->apply();
+        auto command = CommandLineParser(argc, argv).apply();
+        command->apply();
     } catch (std::exception &error) {
         std::cout <<"Error: " << error.what() << std::endl;
     }

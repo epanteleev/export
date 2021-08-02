@@ -8,10 +8,16 @@
 /**
  * Command line parser representation.
  */
-class CommandLineParser {
+class CommandLineParser final {
 public:
     explicit CommandLineParser(int argc, char **argv) : m_argc(argc), m_argv(argv) {}
 
+    CommandLineParser(CommandLineParser&) = delete;
+
+    CommandLineParser(CommandLineParser&&) = delete;
+
+    CommandLineParser operator=(CommandLineParser&) = delete;
+public:
     /**
      * Start parsing of arguments.
      */

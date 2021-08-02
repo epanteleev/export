@@ -37,6 +37,10 @@ std::unique_ptr<AbstractCommand> CommandLineParser::apply() {
 
         checkKeyValue();
         return std::make_unique<DeleteValue>(m_argv[2], m_argv[3]);
+    } else if(strcmp(m_argv[1], "--show") == 0 ||
+              strcmp(m_argv[1], "-s") == 0) {
+
+        return std::make_unique<ShowAllEnv>();
     }
     throw std::invalid_argument("no match");
 }
