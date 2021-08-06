@@ -23,13 +23,9 @@ void Environment::foreach(AbstractVisitor &visitor) {
 
         const auto regString = reinterpret_cast<char *>(dataBuffer.data());
         if (type == REG_SZ) {
-
             visitor.visitRegSz(valueName.data(), utils::split(regString, ';'));
         } else if (type == REG_EXPAND_SZ) {
-
-            TCHAR buffer[32000];
-            ExpandEnvironmentStrings(reinterpret_cast<LPCSTR>(regString), buffer, 32000); //Todo
-            visitor.visitRegExpandSz(valueName.data(), utils::split(buffer, ';'));
+            visitor.visitRegExpandSz(valueName.data(), utils::split(regString, ';'));
         } else {
            ASSERT(false, "undefined type");
         }
